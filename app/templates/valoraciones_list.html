@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Valoraciones</h2>
+  <p class="help" style="margin:0;"></p>
+
+  <div class="actions">
+    <a class="btn success" href="/valoraciones/create">+ Crear valoración</a>
+  </div>
+</section>
+
+<section class="panel">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Intercambio</th>
+        <th>Puntuación</th>
+        <th>Comentario</th>
+        <th>Fecha</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for v in valoraciones %}
+      <tr>
+        <td>{{ v.id }}</td>
+        <td>#{{ v.id_intercambio }}</td>
+        <td><span class="badge brand">{{ v.puntuacion }}/5</span></td>
+        <td>{{ v.comentario }}</td>
+        <td>{{ v.fecha }}</td>
+        <td>
+          <a class="btn primary" href="/valoraciones/edit/{{ v.id }}">Editar</a>
+          <a class="btn" href="/valoraciones/delete/{{ v.id }}" onclick="return confirm('¿Eliminar valoración?');">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

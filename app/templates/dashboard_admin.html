@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Panel Administrador</h2>
+  <p class="help" style="margin:0 0 12px;">
+    Como administrador puedes supervisar el sistema completo: usuarios, servicios, intercambios, valoraciones y reputación.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Gestión total</h3>
+      <p>Acceso completo para revisar y editar información del sistema.</p>
+      <div class="actions">
+        <a class="btn primary" href="/admin">Panel de usuarios</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Servicios</h3>
+      <p>Ver, crear, editar y eliminar servicios publicados.</p>
+      <div class="actions">
+        <a class="btn primary" href="/servicios">Ver servicios</a>
+        <a class="btn success" href="/servicios/create">Crear servicio</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Intercambios</h3>
+      <p>Supervisar intercambios y modificar estados.</p>
+      <div class="actions">
+        <a class="btn primary" href="/intercambios">Ver intercambios</a>
+        <a class="btn success" href="/intercambios/create">Crear intercambio</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

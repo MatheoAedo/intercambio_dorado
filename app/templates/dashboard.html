@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+  <h2>Panel principal</h2>
+  <p>
+    Este prototipo muestra el avance visual del sistema: navegación, listado y formularios.
+    Luego se conectará a la base de datos para persistencia.
+  </p>
+
+  <div class="actions">
+    <a class="btn primary" href="/servicios">Explorar servicios</a>
+    <a class="btn success" href="/servicios/create">Publicar servicio</a>
+  </div>
+</section>
+
+<div class="grid">
+  <div class="card">
+    <h3>Servicios</h3>
+    <p>Listado con tarjetas, detalles y visualización clara.</p>
+    <div class="meta">
+      <span class="badge brand">Front listo</span>
+      <span class="badge good">Mock data</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Formularios</h3>
+    <p>Campos con validación HTML (minlength, required) y estilo consistente.</p>
+    <div class="meta">
+      <span class="badge brand">UI propia</span>
+      <span class="badge good">Sin Bootstrap</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Conexión DB</h3>
+    <p>Próximo paso: reemplazar datos mock por MySQL (persistencia real).</p>
+    <div class="meta">
+      <span class="badge">Back listo</span>
+      <span class="badge">Pendiente</span>
+    </div>
+  </div>
+</div>
+{% endblock %}

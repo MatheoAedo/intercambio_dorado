@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 6px;">Preguntas frecuentes (FAQ)</h2>
+  <p class="help" style="margin:0;">
+    Respuestas rápidas sobre el funcionamiento de <b>Intercambio Dorado</b>.
+    Diseñado para ser fácil de usar, especialmente para personas adultas mayores.
+  </p>
+
+  <div class="actions" style="margin-top:12px;">
+    <a class="btn primary" href="/faq#servicios">Servicios</a>
+    <a class="btn primary" href="/faq#intercambios">Intercambios</a>
+    <a class="btn primary" href="/faq#valoraciones">Valoraciones</a>
+    <a class="btn primary" href="/faq#seguridad">Seguridad</a>
+    <a class="btn primary" href="/faq#cuenta">Cuenta</a>
+  </div>
+</section>
+
+<!-- =========================
+CUENTA / ACCESO
+========================= -->
+<section id="cuenta" class="panel">
+  <h3 style="margin:0 0 10px;">Cuenta y acceso</h3>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Necesito una cuenta para usar la plataforma?</b></summary>
+    <p class="help">
+      Puedes ver la información general sin cuenta, pero para publicar servicios, crear intercambios o valorar,
+      necesitas iniciar sesión.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Cómo inicio sesión?</b></summary>
+    <p class="help">
+      Presiona el botón <b>“Iniciar sesión”</b>, escribe tu correo y contraseña, y luego presiona <b>Entrar</b>.
+      Si te equivocas, puedes intentarlo nuevamente.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Qué pasa si olvido mi contraseña?</b></summary>
+    <p class="help">
+      En esta versión de demostración (mock) se usan cuentas de prueba.
+      En la versión final se agregará recuperación de contraseña y soporte.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Hay un perfil para administrador?</b></summary>
+    <p class="help">
+      Sí. El administrador puede revisar el funcionamiento del sistema y gestionar información para mantener
+      el orden y la seguridad.
+    </p>
+  </details>
+</section>
+
+<!-- =========================
+SERVICIOS
+========================= -->
+<section id="servicios" class="panel">
+  <h3 style="margin:0 0 10px;">Servicios</h3>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Qué tipo de servicios se pueden publicar?</b></summary>
+    <p class="help">
+      Se pueden publicar servicios de apoyo cotidiano: ayuda con celular, acompañamiento, trámites,
+      orientación básica, apoyo comunitario, pequeñas tareas del hogar, etc.
+      No se permiten servicios riesgosos, ilegales o que pongan en peligro a las personas.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Puedo publicar un servicio si soy adulto mayor?</b></summary>
+    <p class="help">
+      Sí. El sistema está pensado para que cualquier persona pueda participar. Un adulto mayor puede publicar
+      servicios (por ejemplo: enseñanza de cocina, acompañamiento, apoyo emocional, manualidades, etc.).
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Cuántos créditos por hora se puede cobrar?</b></summary>
+    <p class="help">
+      En esta demo se controla visualmente entre <b>1 y 10 créditos/hora</b> para mantener el intercambio justo.
+      En la versión final se podrán definir rangos según el tipo de servicio.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Qué significa “créditos”?</b></summary>
+    <p class="help">
+      Los créditos son una forma simple de representar el valor del tiempo y el apoyo entre personas.
+      No es dinero: es un sistema de intercambio para promover colaboración.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Puedo editar o eliminar un servicio?</b></summary>
+    <p class="help">
+      Sí. El usuario puede editar/eliminar sus propios servicios (en la versión con base de datos se validará por usuario).
+      El administrador puede gestionar todos para mantener el control del sistema.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Qué información debo escribir en la descripción?</b></summary>
+    <p class="help">
+      Se recomienda escribir: qué ofreces, cuánto dura, qué necesitas para realizarlo y cualquier detalle importante.
+      Mientras más claro, más fácil será para otros entender tu servicio.
+    </p>
+  </details>
+</section>
+
+<!-- =========================
+INTERCAMBIOS
+========================= -->
+<section id="intercambios" class="panel">
+  <h3 style="margin:0 0 10px;">Intercambios</h3>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Qué es un intercambio?</b></summary>
+    <p class="help">
+      Un intercambio es el registro de una solicitud o acuerdo por un servicio publicado.
+      Permite llevar control de fecha y estado.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Qué estados puede tener un intercambio?</b></summary>
+    <p class="help">
+      Pendiente, confirmado, en progreso, completado o cancelado.
+      Esto permite saber claramente en qué etapa se encuentra.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Cómo se crea un intercambio?</b></summary>
+    <p class="help">
+      Se selecciona un servicio, se asigna fecha y estado.
+      Luego el administrador o el usuario puede actualizarlo según corresponda.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Puedo cancelar un intercambio?</b></summary>
+    <p class="help">
+      Sí. Si un intercambio no se puede realizar, se puede marcar como <b>cancelado</b>.
+      Esto ayuda a mantener el historial ordenado.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Cómo sé si mi intercambio fue aceptado?</b></summary>
+    <p class="help">
+      En esta versión mock, el estado se actualiza manualmente.
+      En la versión final se podrán agregar notificaciones y confirmaciones.
+    </p>
+  </details>
+</section>
+
+<!-- =========================
+VALORACIONES / REPUTACION
+========================= -->
+<section id="valoraciones" class="panel">
+  <h3 style="margin:0 0 10px;">Valoraciones y reputación</h3>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Cómo se valora un servicio?</b></summary>
+    <p class="help">
+      La valoración es de <b>1 a 5 estrellas</b> con comentario opcional.
+      Sirve para construir confianza y reputación.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Para qué sirven los comentarios?</b></summary>
+    <p class="help">
+      Los comentarios ayudan a que otros usuarios conozcan la experiencia real.
+      También sirven para mejorar la calidad del servicio.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Cómo se calcula la reputación?</b></summary>
+    <p class="help">
+      La reputación se calcula con el promedio de puntuaciones por servicio y el total de valoraciones recibidas.
+      Mientras más valoraciones positivas, mayor confianza genera.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Puedo cambiar una valoración?</b></summary>
+    <p class="help">
+      En esta demo sí se puede editar. En la versión final se definirán reglas claras para evitar abusos
+      y mantener la transparencia.
+    </p>
+  </details>
+</section>
+
+<!-- =========================
+SEGURIDAD / ADULTO MAYOR
+========================= -->
+<section id="seguridad" class="panel">
+  <h3 style="margin:0 0 10px;">Seguridad y ayuda para adultos mayores</h3>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Es seguro usar esta plataforma?</b></summary>
+    <p class="help">
+      El objetivo del sistema es promover confianza mediante reputación, control de roles y registro de actividades.
+      Además, el administrador puede supervisar el contenido.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Qué hago si no entiendo algo?</b></summary>
+    <p class="help">
+      No te preocupes. La plataforma está pensada para ser simple. Puedes revisar este FAQ o pedir ayuda a un familiar.
+      En la versión final se incluirá soporte y guías paso a paso.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Qué recomendaciones hay para evitar estafas?</b></summary>
+    <p class="help">
+      Recomendaciones básicas: no compartir claves, no entregar datos bancarios, revisar reputación,
+      y preferir intercambios claros y confirmados.
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿La letra se puede ver más grande?</b></summary>
+    <p class="help">
+      Sí. Se está priorizando accesibilidad con texto legible, botones grandes y contraste.
+      También puedes usar el zoom del navegador (Ctrl + +).
+    </p>
+  </details>
+
+  <details class="panel" style="margin-top:10px;">
+    <summary><b>¿Mis datos están protegidos?</b></summary>
+    <p class="help">
+      En la versión final se implementarán medidas como contraseñas encriptadas, validaciones y control de acceso por roles.
+      Esta versión es una demostración visual previa a la base de datos.
+    </p>
+  </details>
+</section>
+
+{% endblock %}
+

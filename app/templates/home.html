@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero">
+  <h2>Bienvenid@ a tu nueva comunidad de apoyo mutuo.</h2>
+  <p>
+    Aquí no compras ni vendes. Intercambias talento, tiempo y buena voluntad. Intercambio Dorado es la plataforma donde tu habilidad vale, tu ayuda conecta y juntos generamos un impacto real. ¿List@ para ser parte del cambio?
+  </p>
+
+  <div class="actions">
+    <a class="btn success" href="/login">Iniciar sesión</a>
+    <a class="btn primary" href="#como-funciona">Cómo funciona</a>
+  </div>
+</section>
+
+<!-- Imagen principal (opcional) -->
+<section class="panel" style="margin-top:16px;">
+  <h3 style="margin:0 0 10px;">¿Cómo funciona? Construimos confianza, juntos.</h3>
+  <p class="help" style="margin:0 0 14px;">
+    En Intercambio Dorado, cada intercambio teje un lazo de confianza en la comunidad. Publica lo que ofreces o necesitas, conecta de forma sencilla y, al finalizar, cuéntanos cómo te fue. Este sistema de valoraciones honestas nos permite a todos reconocer y celebrar la buena voluntad, creando un círculo virtuoso donde las mejores experiencias inspiran a más personas a sumarse.
+    <b>Tu reputación es el reflejo del valor que aportas.</b>
+  </p>
+
+  <div style="border:1px solid rgba(15,23,32,.14); border-radius:16px; overflow:hidden;">
+    <img src="{{ url_for('static', filename='images/hero.jpg') }}"
+         alt="Intercambio Dorado"
+         style="width:100%; display:block; max-height:320px; object-fit:cover;">
+  </div>
+
+  <p class="help" style="margin:10px 0 0;">
+    Aquí, todos tienen algo valioso que dar. Y tú, <b>¿con qué contribuyes hoy?</b>
+  </p>
+</section>
+
+<!-- QUE PUEDES HACER AQUI -->
+<section id="como-funciona" class="panel" style="margin-top:16px;">
+  <h3 style="margin:0 0 10px;">¿Qué puedes hacer aquí?</h3>
+  <p class="help" style="margin:0 0 14px;">
+    Explora las funciones principales del sistema. Algunas opciones requieren iniciar sesión.
+  </p>
+
+ <div class="grid">
+    <!-- CARD 1 -->
+    <div class="card">
+      <h3>1) Publicar servicios</h3>
+      <p>Crear y administrar servicios que luego pueden ser solicitados mediante intercambios.</p>
+
+      <div class="meta">
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="/faq#servicios">Ver preguntas (Servicios)</a>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card">
+      <h3>2) Gestionar intercambios</h3>
+      <p>Crear intercambios y actualizar su estado (pendiente, confirmado, completado, etc.).</p>
+
+      <div class="meta">
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="/faq#intercambios">Ver preguntas (Intercambios)</a>
+      </div>
+    </div>
+
+    <!-- CARD 3 -->
+    <div class="card">
+      <h3>3) Valorar y reputación</h3>
+      <p>Registrar valoraciones y visualizar un resumen de reputación por servicio.</p>
+
+      <div class="meta">
+        <span class="badge brand">Adulto mayor</span>
+        <span class="badge good">5/5</span>
+        <span class="stars">★★★★★</span>
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="/faq#valoraciones">Ver preguntas (Valoraciones)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="panel" style="margin-top:16px;">
+  <h3 style="margin:0 0 10px;">Acceso por perfiles</h3>
+  <p class="help" style="margin:0 0 14px;">
+    
+  </p>
+
+  <div class="actions">
+    <a class="btn success" href="/login">Entrar (Usuario / Admin)</a>
+  </div>
+
+  <p class="help" style="margin:10px 0 0;">
+    Demo: Admin <b>admin@mail.com / Admin1234!</b> — Usuario <b>rosa@mail.com / Demo1234!</b>
+  </p>
+</section>
+
+<section class="panel" style="margin-top:16px;">
+  <h3 style="margin:0 0 10px;">Opiniones de usuarios</h3>
+
+  <div class="grid">
+    <div class="card">
+      <h3>“Me ayudaron con el celular”</h3>
+      <p class="help">“Ahora sé hacer videollamadas y enviar fotos. La experiencia fue clara y segura.”</p>
+      <div class="meta"><span class="badge brand">Adulto mayor</span><span class="badge good">5/5</span></div>
+    </div>
+
+    <div class="card">
+      <h3>“Acompañamiento a trámites”</h3>
+      <p class="help">“Pude ir al médico con apoyo y sentí confianza. La reputación ayuda mucho.”</p>
+      <div class="meta"><span class="badge brand">Usuario</span><span class="badge good">5/5</span></div>
+    </div>
+
+    <div class="card">
+      <h3>“Sistema sencillo”</h3>
+      <p class="help">“Los botones son grandes y entendibles. Es fácil publicar un servicio y valorar.”</p>
+      <div class="meta"><span class="badge brand">Comunidad</span><span class="badge good">4/5</span></div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

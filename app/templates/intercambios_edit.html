@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 10px;">Editar intercambio</h2>
+  <p class="help" style="margin:0 0 14px;">Permite cambiar servicio, fecha y estado.</p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Servicio</label>
+      <select name="id_servicio" required>
+        {% for s in servicios %}
+          <option value="{{ s.id }}" {% if s.id == intercambio.id_servicio %}selected{% endif %}>
+            {{ s.titulo }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label>Fecha</label>
+      <input name="fecha" required value="{{ intercambio.fecha }}">
+    </div>
+
+    <div>
+      <label>Estado</label>
+      <select name="estado" required>
+        {% for e in estados %}
+          <option value="{{ e }}" {% if e == intercambio.estado %}selected{% endif %}>{{ e }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" type="submit">Actualizar</button>
+      <a class="btn" href="/intercambios">Volver</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

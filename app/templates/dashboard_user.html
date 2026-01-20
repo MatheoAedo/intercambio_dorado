@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Panel de Usuario</h2>
+  <p class="help" style="margin:0 0 12px;">
+    Aquí puedes gestionar tus servicios, revisar intercambios y dejar valoraciones. Diseñado para ser simple y legible.
+  </p>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Publicar servicios</h3>
+      <p>Crea y administra servicios de apoyo. Puedes editar lo que tú publicas.</p>
+      <div class="actions">
+        <a class="btn success" href="/servicios/create">Crear servicio</a>
+        <a class="btn primary" href="/servicios">Ver servicios</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Intercambios</h3>
+      <p>Consulta tus intercambios y su estado. Podrás actualizarlos cuando corresponda.</p>
+      <div class="actions">
+        <a class="btn primary" href="/intercambios">Ver intercambios</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Valoraciones</h3>
+      <p>Valora experiencias y aporta comentarios para ayudar a otros usuarios.</p>
+      <div class="actions">
+        <a class="btn success" href="/valoraciones/create">Valorar</a>
+        <a class="btn primary" href="/valoraciones">Ver valoraciones</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

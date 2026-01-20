@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Reputación (Promedio por servicio)</h2>
+  <p class="help" style="margin:0;">Vista de análisis (mock) para evidenciar resultados.</p>
+</section>
+
+<section class="panel">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID Servicio</th>
+        <th>Servicio</th>
+        <th>Cantidad valoraciones</th>
+        <th>Promedio</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in data %}
+      <tr>
+        <td>{{ r.id_servicio }}</td>
+        <td>{{ r.titulo }}</td>
+        <td>{{ r.cantidad }}</td>
+        <td>
+          {% if r.promedio is none %}
+            <span class="badge">Sin datos</span>
+          {% else %}
+            <span class="badge good">{{ "%.2f"|format(r.promedio) }}</span>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

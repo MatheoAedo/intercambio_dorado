@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 6px;">Crear cuenta</h2>
+  <p class="help" style="margin:0 0 14px;">
+    Completa tus datos para registrarte. (Versión demo)
+  </p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Nombre</label>
+      <input name="nombre" placeholder="Tu nombre" required>
+    </div>
+
+    <div>
+      <label>Correo</label>
+      <input name="email" type="email" placeholder="ej: correo@mail.com" required>
+    </div>
+
+    <div>
+      <label>Contraseña</label>
+      <input name="password" type="password" placeholder="Mínimo 6 caracteres" required>
+    </div>
+
+    <div>
+      <label>Repetir contraseña</label>
+      <input name="password2" type="password" placeholder="Repite la contraseña" required>
+    </div>
+
+    <div class="actions">
+      <button class="btn success" type="submit">Crear cuenta</button>
+      <a class="btn primary" href="/login">Volver a login</a>
+      <a class="btn primary" href="/">Inicio</a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

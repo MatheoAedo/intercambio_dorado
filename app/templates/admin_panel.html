@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 6px;">Panel Administrador</h2>
+  <p class="help" style="margin:0 0 14px;">
+    Desde aquí puedes gestionar usuarios, créditos y revisar mensajes enviados por el formulario de contacto.
+  </p>
+
+  <div class="actions">
+    <a class="btn primary" href="/servicios">Ver Servicios</a>
+    <a class="btn primary" href="/intercambios">Ver Intercambios</a>
+    <a class="btn primary" href="/valoraciones">Ver Valoraciones</a>
+    <a class="btn primary" href="/reputacion">Ver Reputación</a>
+  </div>
+</section>
+
+<section class="panel" style="margin-top:16px;">
+  <h3 style="margin:0 0 10px;">Gestión de usuarios</h3>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th>Créditos</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for u in usuarios %}
+      <tr>
+        <td>{{ u.id }}</td>
+        <td>{{ u.nombre }}</td>
+        <td>{{ u.email }}</td>
+        <td>{{ u.rol }}</td>
+        <td>{{ u.creditos }}</td>
+        <td style="min-width:260px;">
+          <a class="btn primary" href="/admin/users/edit/{{ u.id }}">Editar</a>
+          <a class="btn primary" href="/admin/users/delete/{{ u.id }}" onclick="return confirm('¿Eliminar usuario?');">Eliminar</a>
+
+          <form method="post" action="/admin/users/password/{{ u.id }}" style="margin-top:8px;">
+            <input name="password" placeholder="Nueva clave (min 6)" />
+            <button class="btn success" type="submit">Cambiar clave</button>
+          </form>
+
+          <form method="post" action="/admin/users/credits/{{ u.id }}" style="margin-top:8px;">
+            <input name="delta" placeholder="+5 o -3" />
+            <button class="btn success" type="submit">Ajustar créditos</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+
+<section class="panel" style="margin-top:16px;">
+  <h3 style="margin:0 0 10px;">Mensajes recibidos (Contacto)</h3>
+
+  {% if mensajes|length == 0 %}
+    <p class="help" style="margin:0;">Aún no hay mensajes.</p>
+  {% else %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Asunto</th>
+          <th>Mensaje</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in mensajes %}
+        <tr>
+          <td>{{ m.fecha }}</td>
+          <td>{{ m.nombre }}</td>
+          <td>{{ m.email }}</td>
+          <td>{{ m.asunto }}</td>
+          <td style="max-width:520px;">{{ m.mensaje }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+</section>
+
+{% endblock %}

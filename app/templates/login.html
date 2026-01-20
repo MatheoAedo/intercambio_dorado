@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 6px;">Iniciar sesión</h2>
+  <p class="help" style="margin:0 0 14px;">
+    Ingresa con tu correo y contraseña. Si no tienes cuenta, puedes crear una.
+  </p>
+
+  {% if error %}
+    <div class="badge brand" style="margin-bottom:10px;">{{ error }}</div>
+  {% endif %}
+
+  <form class="form" method="post">
+    <div>
+      <label>Correo</label>
+      <input name="email" type="email" placeholder="ej: usuario@mail.com" required>
+    </div>
+
+    <div>
+      <label>Contraseña</label>
+      <input name="password" type="password" placeholder="Tu contraseña" required>
+    </div>
+
+    <div class="actions">
+      <button class="btn success" type="submit">Entrar</button>
+      <a class="btn primary" href="/">Volver al inicio</a>
+      <a class="btn primary" href="/register">Crear cuenta</a>
+    </div>
+
+    <p class="help" style="margin:10px 0 0;">
+      Demo: Admin <b>admin@mail.com / Admin1234!</b> — Usuario <b>rosa@mail.com / Demo1234!</b>
+    </p>
+  </form>
+</section>
+
+{% endblock %}

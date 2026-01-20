@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 10px;">Crear valoración</h2>
+  <p class="help" style="margin:0 0 14px;">Registra puntuación y comentario sobre un intercambio.</p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Intercambio</label>
+      <select name="id_intercambio" required>
+        {% for i in intercambios %}
+          <option value="{{ i.id }}">Intercambio #{{ i.id }} ({{ i.estado }})</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label>Puntuación (1 a 5)</label>
+      <input name="puntuacion" type="number" min="1" max="5" required value="5">
+    </div>
+
+    <div>
+      <label>Comentario</label>
+      <textarea name="comentario" minlength="3" maxlength="300" placeholder="Ej: Excelente experiencia..."></textarea>
+      <div class="help">Máximo 300 caracteres.</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn success" type="submit">Guardar</button>
+      <a class="btn" href="/valoraciones">Cancelar</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

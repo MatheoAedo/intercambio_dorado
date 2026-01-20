@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 6px;">Contacto</h2>
+  <p class="help" style="margin:0 0 14px;">
+    Envía tu mensaje. El administrador lo recibirá en el panel para responderlo.
+  </p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Tu nombre</label>
+      <input name="nombre" placeholder="Ej: Juan Pérez" required>
+    </div>
+
+    <div>
+      <label>Tu correo</label>
+      <input name="email" type="email" placeholder="Ej: correo@mail.com" required>
+    </div>
+
+    <div>
+      <label>Asunto (opcional)</label>
+      <input name="asunto" placeholder="Ej: Necesito ayuda para publicar un servicio">
+    </div>
+
+    <div>
+      <label>Mensaje</label>
+      <textarea name="mensaje" placeholder="Escribe tu mensaje con calma. Te responderemos." required></textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn success" type="submit">Enviar mensaje</button>
+      <a class="btn primary" href="/">Volver al inicio</a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

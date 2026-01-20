@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 10px;">Editar valoración</h2>
+  <p class="help" style="margin:0 0 14px;">Actualiza puntuación y comentario.</p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Intercambio</label>
+      <select name="id_intercambio" required>
+        {% for i in intercambios %}
+          <option value="{{ i.id }}" {% if i.id == valoracion.id_intercambio %}selected{% endif %}>
+            Intercambio #{{ i.id }} ({{ i.estado }})
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label>Puntuación</label>
+      <input name="puntuacion" type="number" min="1" max="5" required value="{{ valoracion.puntuacion }}">
+    </div>
+
+    <div>
+      <label>Comentario</label>
+      <textarea name="comentario" minlength="3" maxlength="300">{{ valoracion.comentario }}</textarea>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" type="submit">Actualizar</button>
+      <a class="btn" href="/valoraciones">Volver</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

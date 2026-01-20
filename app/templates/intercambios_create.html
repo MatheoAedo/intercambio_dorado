@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 10px;">Crear intercambio</h2>
+  <p class="help" style="margin:0 0 14px;">Asocia un servicio, fecha y estado inicial.</p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Servicio</label>
+      <select name="id_servicio" required>
+        {% for s in servicios %}
+          <option value="{{ s.id }}">{{ s.titulo }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div>
+      <label>Fecha (YYYY-MM-DD HH:MM:SS)</label>
+      <input name="fecha" required placeholder="2026-01-19 10:00:00">
+      <div class="help">Formato recomendado para registro.</div>
+    </div>
+
+    <div>
+      <label>Estado</label>
+      <select name="estado" required>
+        {% for e in estados %}
+          <option value="{{ e }}">{{ e }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="actions">
+      <button class="btn success" type="submit">Guardar</button>
+      <a class="btn" href="/intercambios">Cancelar</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

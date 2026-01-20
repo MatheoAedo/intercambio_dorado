@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 10px;">Editar servicio</h2>
+  <p class="help" style="margin:0 0 14px;"></p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Título</label>
+      <input name="titulo" required minlength="3" maxlength="100" value="{{ servicio.titulo }}">
+    </div>
+
+    <div>
+      <label>Descripción</label>
+      <textarea name="descripcion" required minlength="10" maxlength="600">{{ servicio.descripcion }}</textarea>
+    </div>
+
+    <div>
+      <label>Créditos por hora</label>
+      <input name="creditos_hora" type="number" required min="1" max="10" value="{{ servicio.creditos_hora }}">
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" type="submit">Actualizar</button>
+      <a class="btn" href="/servicios">Volver</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

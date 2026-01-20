@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Intercambios</h2>
+  <p class="help" style="margin:0;">CRUD visual completo con estados (mock).</p>
+
+  <div class="actions">
+    <a class="btn success" href="/intercambios/create">+ Crear intercambio</a>
+  </div>
+</section>
+
+<section class="panel">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Servicio</th>
+        <th>Fecha</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in intercambios %}
+      <tr>
+        <td>{{ i.id }}</td>
+        <td>{{ servicios_map[i.id_servicio] }}</td>
+        <td>{{ i.fecha }}</td>
+        <td>
+          {% if i.estado == 'completado' %}
+            <span class="badge good">{{ i.estado }}</span>
+          {% elif i.estado == 'cancelado' %}
+            <span class="badge">{{ i.estado }}</span>
+          {% else %}
+            <span class="badge brand">{{ i.estado }}</span>
+          {% endif %}
+        </td>
+        <td>
+          <a class="btn primary" href="/intercambios/edit/{{ i.id }}">Editar</a>
+          <a class="btn" href="/intercambios/delete/{{ i.id }}" onclick="return confirm('¿Eliminar intercambio?');">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</section>
+{% endblock %}

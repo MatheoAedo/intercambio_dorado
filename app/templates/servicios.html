@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Servicios publicados</h2>
+  <p class="help" style="margin:0;">
+  </p>
+
+  <div class="actions">
+    <a class="btn primary" href="/servicios/create">Publicar nuevo servicio</a>
+  </div>
+</section>
+
+<div class="grid">
+  {% for s in servicios %}
+  <div class="card">
+    <h3>{{ s.titulo }}</h3>
+    <p>{{ s.descripcion }}</p>
+    <div class="meta">
+      <span class="badge">ID: {{ s.id }}</span>
+      <span class="badge brand">Servicio</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

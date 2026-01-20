@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="panel">
+  <h2 style="margin:0 0 10px;">Publicar servicio</h2>
+  <p class="help" style="margin:0 0 14px;">Formulario de creación (mock). Valida con HTML.</p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Título</label>
+      <input name="titulo" required minlength="3" maxlength="100"
+             placeholder="Ej: Ayuda con WhatsApp">
+      <div class="help">Mínimo 3 caracteres.</div>
+    </div>
+
+    <div>
+      <label>Descripción</label>
+      <textarea name="descripcion" required minlength="10" maxlength="600"
+                placeholder="Describe el servicio de forma clara..."></textarea>
+      <div class="help">Mínimo 10 caracteres.</div>
+    </div>
+
+    <div>
+      <label>Créditos por hora</label>
+      <input name="creditos_hora" type="number" required min="1" max="10" value="2">
+      <div class="help">Rango recomendado: 1 a 10.</div>
+    </div>
+
+    <div class="actions">
+      <button class="btn success" type="submit">Guardar</button>
+      <a class="btn" href="/servicios">Cancelar</a>
+    </div>
+  </form>
+</section>
+{% endblock %}
