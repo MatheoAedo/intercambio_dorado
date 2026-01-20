@@ -6,16 +6,10 @@ from psycopg.rows import dict_row
 load_dotenv()
 
 def get_conn():
-    """
-    Conecta a PostgreSQL.
-    - En local usa variables DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
-    - En Render usa DATABASE_URL automáticamente si existe
-    """
 
     database_url = os.getenv("DATABASE_URL")
 
     if database_url:
-        # Render (o cualquier hosting que entregue DATABASE_URL)
         return psycopg.connect(database_url, row_factory=dict_row)
 
     # Local (pgAdmin)
