@@ -27,7 +27,7 @@ body{
   font-size: var(--fs-base);
   line-height: var(--lh);
 
-  /* Fondo claro con un toque elegante */
+  /* Fondo claro */
   background:
     radial-gradient(900px 420px at 10% 0%, rgba(212,175,55,.18), transparent 60%),
     radial-gradient(900px 420px at 90% 10%, rgba(11,59,68,.14), transparent 60%),

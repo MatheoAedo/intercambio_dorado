@@ -5,7 +5,7 @@ app = Flask(__name__)
 app.secret_key = "dev_secret"
 
 
-# ----------------------------
+# ---------------------------
 # USUARIOS MOCK (LOGIN + ROLES)
 # ----------------------------
 USUARIOS = [
@@ -27,7 +27,7 @@ def is_admin():
 
 
 # ----------------------------
-# VALIDACIONES SIMPLES (Mock)
+# VALIDACIONES SIMPLES 
 # ----------------------------
 def valid_text(value, min_len=3, max_len=600):
     value = (value or "").strip()
@@ -47,10 +47,6 @@ def valid_int(value, min_val, max_val):
     except:
         return None
 
-
-# ----------------------------
-# MOCK DATA (3 CRUD solicitados)
-# ----------------------------
 SERVICIOS = [
     {"id": 1, "titulo": "Clases de celular", "descripcion": "Ayuda para WhatsApp, videollamadas y fotos.", "creditos_hora": 2},
     {"id": 2, "titulo": "Acompañamiento médico", "descripcion": "Acompañar a consulta y ayudar con trámites.", "creditos_hora": 3},
@@ -72,7 +68,7 @@ def next_id(lista):
 
 
 # ----------------------------
-# HOME PUBLICO (Landing)
+# HOME PUBLICO
 # ----------------------------
 @app.route("/")
 def home():
@@ -81,7 +77,6 @@ def home():
 
 @app.route("/faq")
 def faq():
-    # publico, no requiere login
     return render_template("faq.html")
 
 
@@ -152,7 +147,7 @@ def logout():
 
 
 # ----------------------------
-# ADMIN PANEL (mock)
+# ADMIN PANEL 
 # ----------------------------
 @app.route("/admin")
 def admin_panel():
@@ -256,7 +251,6 @@ def servicios_delete(id):
         flash("No se pudo eliminar: servicio no encontrado.", "danger")
         return redirect(url_for("servicios_list"))
 
-    # ✅ eliminar sin reasignar lista (evita global)
     SERVICIOS.remove(servicio)
 
     flash("Servicio eliminado.", "info")
@@ -357,7 +351,6 @@ def intercambios_delete(id):
         flash("No se pudo eliminar: intercambio no encontrado.", "danger")
         return redirect(url_for("intercambios_list"))
 
-    # ✅ eliminar sin reasignar lista (evita global)
     INTERCAMBIOS.remove(intercambio)
 
     flash("Intercambio eliminado.", "info")
@@ -455,7 +448,6 @@ def valoraciones_delete(id):
         flash("No se pudo eliminar: valoración no encontrada.", "danger")
         return redirect(url_for("valoraciones_list"))
 
-    # ✅ eliminar sin reasignar lista (evita global)
     VALORACIONES.remove(valoracion)
 
     flash("Valoración eliminada.", "info")
@@ -495,7 +487,7 @@ def reputacion():
 # ----------------------------
 # CONTACTO (publico)
 # ----------------------------
-CONTACT_MESSAGES = []  # bandeja mock para el admin
+CONTACT_MESSAGES = []
 
 @app.route("/contacto", methods=["GET", "POST"])
 def contacto():
