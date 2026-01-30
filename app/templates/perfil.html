@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <div class="perfil-grid">
+    <!-- Columna izquierda -->
+    <aside class="perfil-left">
+      <div class="perfil-card">
+        <div class="perfil-avatar">
+          <div class="avatar-circle">
+            {{ (usuario.nombre[:1] if usuario.nombre else "U") | upper }}
+          </div>
+        </div>
+
+        <h2 class="perfil-nombre">{{ usuario.nombre }}</h2>
+        <p class="perfil-sub">📍 {{ usuario.ubicacion }}</p>
+
+        <div class="perfil-stats">
+          <div class="stat">
+            <div class="stat-num">{{ stats.promedio }}</div>
+            <div class="stat-lbl">Reputación</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">{{ total_intercambios }}</div>
+            <div class="stat-lbl">Finalizados</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="perfil-card" style="margin-top:14px;">
+        <h3 style="margin:0 0 10px;">Información</h3>
+        <p class="help" style="margin:0;">
+          <b>Correo:</b> {{ usuario.email }}<br>
+          <b>Edad:</b> {{ usuario.edad }}<br>
+          <b>Rol:</b> {{ usuario.rol }}<br>
+          <b>Créditos:</b> {{ usuario.creditos }}<br>
+          <b>Total valoraciones:</b> {{ stats.total_valoraciones }}
+        </p>
+      </div>
+
+      <div class="perfil-card" style="margin-top:14px;">
+        <h3 style="margin:0 0 10px;">Acciones rápidas</h3>
+        <div class="actions" style="margin:0;">
+          <a class="btn primary" href="{{ url_for('servicios_list') }}">Mis servicios</a>
+          <a class="btn primary" href="{{ url_for('intercambios_list') }}">Mis intercambios</a>
+          <a class="btn primary" href="{{ url_for('valoraciones_list') }}">Mis valoraciones</a>
+          <a class="btn" href="{{ url_for('contacto_admin') }}">Contacto (admin)</a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Columna derecha -->
+    <main class="perfil-right">
+      <div class="perfil-card perfil-main">
+        <div class="perfil-top">
+          <div>
+            <h2 style="margin:0;">Perfil Personal</h2>
+            <p class="help" style="margin:6px 0 0;">
+              Revisa tus datos, reputación y comentarios recientes.
+            </p>
+          </div>
+
+          <a class="btn success" href="{{ url_for('perfil_editar') }}">✏️ Editar Perfil</a>
+        </div>
+
+        <hr class="perfil-hr">
+
+        <h3 style="margin:0 0 10px;">Reputación</h3>
+        <div class="perfil-reputacion">
+          <div class="badge good">Promedio: {{ stats.promedio }}/5</div>
+          <div class="badge brand">Total valoraciones: {{ stats.total_valoraciones }}</div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <h3 style="margin:0 0 10px;">Últimos comentarios (5)</h3>
+
+          {% if ultimas_val and ultimas_val|length > 0 %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Autor</th>
+                  <th>Puntuación</th>
+                  <th>Comentario</th>
+                  <th>Fecha</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for v in ultimas_val %}
+                <tr>
+                  <td>{{ v.autor }}</td>
+                  <td>{{ v.puntuacion }}</td>
+                  <td>{{ v.comentario or "-" }}</td>
+                  <td>{{ v.fecha }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% else %}
+            <p class="help" style="margin:0;">Aún no tienes valoraciones recibidas.</p>
+          {% endif %}
+        </div>
+
+        <div style="margin-top:18px;">
+          <h3 style="margin:0 0 10px;">Mis habilidades</h3>
+          {% if habilidades is defined and habilidades and habilidades|length > 0 %}
+            <div class="perfil-tags">
+              {% for h in habilidades %}
+                <span class="tag">{{ h.nombre }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            <p class="help" style="margin:0;">Aún no has registrado habilidades.</p>
+          {% endif %}
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+{% endblock %}

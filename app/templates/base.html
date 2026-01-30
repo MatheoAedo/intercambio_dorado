@@ -15,25 +15,59 @@
       </div>
 
       <nav class="nav">
-        <a href="/" class="{% if request.path=='/' %}active{% endif %}">Inicio</a>
+        <a href="{{ url_for('home') }}" class="{% if request.path=='/' %}active{% endif %}">Inicio</a>
 
         {% if session.get("user_id") %}
-          <a href="/servicios" class="{% if '/servicios' in request.path %}active{% endif %}">Servicios</a>
-          <a href="/intercambios" class="{% if '/intercambios' in request.path %}active{% endif %}">Intercambios</a>
-          <a href="/valoraciones" class="{% if '/valoraciones' in request.path %}active{% endif %}">Valoraciones</a>
-          <a href="/reputacion" class="{% if '/reputacion' in request.path %}active{% endif %}">Reputación</a>
+          <a href="{{ url_for('perfil') }}" class="{% if '/perfil' in request.path %}active{% endif %}">Perfil</a>
 
-          {% if session.get("rol") == "admin" %}
-            <a href="/admin" class="{% if '/admin' in request.path %}active{% endif %}">Panel Admin</a>
-          {% else %}
-            <a href="/dashboard/user" class="{% if '/dashboard/user' in request.path %}active{% endif %}">Mi Panel</a>
+          {% if session.get("rol") != "admin" %}
+            <a href="{{ url_for('servicios_public') }}" class="{% if '/servicios' in request.path %}active{% endif %}">Servicios</a>
+            <a href="{{ url_for('intercambios_list') }}" class="{% if '/intercambios' in request.path %}active{% endif %}">Intercambios</a>
           {% endif %}
 
-          <a href="/logout">Salir</a>
+          <a href="{{ url_for('valoraciones_list') }}" class="{% if '/valoraciones' in request.path %}active{% endif %}">Valoraciones</a>
+
+          <a href="{{ url_for('contacto_admin') }}" class="{% if '/contacto-admin' in request.path %}active{% endif %}">Contacto</a>
+
+          <a href="{{ url_for('notificaciones') }}" class="{% if '/notificaciones' in request.path %}active{% endif %}">
+            Notificaciones
+            {% if notif_count and notif_count > 0 %}
+              <span class="badge-mini">{{ notif_count }}</span>
+            {% endif %}
+          </a>
+
+          {% if session.get("rol") == "admin" %}
+            {# ✅ Usuarios: activo solo en /admin y /admin/users... #}
+            <a href="{{ url_for('admin_panel') }}"
+               class="{% if request.path == '/admin' or request.path.startswith('/admin/users') %}active{% endif %}">
+              Usuarios
+            </a>
+
+            {# ✅ Servicios: dashboard admin #}
+            <a href="{{ url_for('admin_dashboard') }}"
+               class="{% if request.path.startswith('/dashboard/admin') %}active{% endif %}">
+              Servicios
+            </a>
+
+            {# ✅ Bandeja: activo solo en /admin/contactos... #}
+            <a href="{{ url_for('admin_contactos_inbox') }}"
+               class="{% if request.path.startswith('/admin/contactos') %}active{% endif %}">
+              Bandeja
+            </a>
+          {% endif %}
+
+          <span class="badge brand" style="margin-left:10px;">
+            Hola, {{ session.get("user_nombre", "Usuario") }} ({{ session.get("rol", "usuario") }})
+          </span>
+
+          <a href="{{ url_for('logout') }}">Salir</a>
+
         {% else %}
-          <a href="/faq" class="{% if '/faq' in request.path %}active{% endif %}">FAQ</a>
-          <a href="/contacto" class="{% if '/contacto' in request.path %}active{% endif %}">Contacto</a>
-          <a href="/login" class="{% if '/login' in request.path %}active{% endif %}">Iniciar sesión</a>
+          <a href="{{ url_for('faq') }}" class="{% if '/faq' in request.path %}active{% endif %}">Preguntas frecuentes</a>
+          <a href="{{ url_for('contacto') }}" class="{% if '/contacto' in request.path %}active{% endif %}">Contacto</a>
+
+          <a href="{{ url_for('login') }}" class="{% if '/login' in request.path %}active{% endif %}">Iniciar sesión</a>
+          <a href="{{ url_for('register') }}" class="{% if '/register' in request.path %}active{% endif %}">Crear cuenta</a>
         {% endif %}
       </nav>
     </div>
@@ -44,7 +78,7 @@
       {% if messages %}
         <section class="panel" style="margin-top:14px;">
           {% for category, msg in messages %}
-            <div class="badge {% if category=='success' %}good{% elif category=='danger' %}brand{% endif %}"
+            <div class="badge {% if category=='success' %}good{% elif category=='danger' %}brand{% else %}brand{% endif %}"
                  style="display:inline-flex;margin:6px 6px 0 0;">
               {{ msg }}
             </div>
@@ -62,18 +96,18 @@
       </p>
 
       <div class="actions">
-        <a class="btn success" href="/contacto">Formulario de contacto</a>
-        <a class="btn primary" href="/faq">Ver FAQ</a>
+        <a class="btn success" href="{{ url_for('contacto') }}">Formulario de contacto</a>
+        <a class="btn primary" href="{{ url_for('faq') }}">Ver Preguntas frecuentes</a>
       </div>
 
       <div class="grid" style="margin-top:14px;">
         <div class="card">
           <h3>Redes sociales</h3>
-          <p class="help">Enlaces de ejemplo </p>
+          <p class="help">Enlaces de ejemplo</p>
           <div class="actions">
-            <a class="btn primary" href="#" onclick="alert('Demo: agrega tu enlace real'); return false;">Facebook</a>
-            <a class="btn primary" href="#" onclick="alert('Demo: agrega tu enlace real'); return false;">Instagram</a>
-            <a class="btn primary" href="#" onclick="alert('Demo: agrega tu enlace real'); return false;">WhatsApp</a>
+            <a class="btn primary" href="#" onclick="alert('Demo: agrega enlace real'); return false;">Facebook</a>
+            <a class="btn primary" href="#" onclick="alert('Demo: agrega enlace real'); return false;">Instagram</a>
+            <a class="btn primary" href="#" onclick="alert('Demo: agrega enlace real'); return false;">WhatsApp</a>
           </div>
         </div>
 
@@ -93,14 +127,13 @@
           <h3>Proyecto</h3>
           <p class="help">
             Proyecto de título de <b>Matheo Aedo</b> — Intercambio Dorado.
-            Versión demostración
           </p>
         </div>
       </div>
     </section>
 
     <div class="footer">
-      © {{ 2026 }} Intercambio Dorado · Proyecto de título
+      © 2026 Intercambio Dorado · Proyecto de título
     </div>
   </main>
 </body>

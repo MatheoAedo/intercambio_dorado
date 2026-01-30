@@ -1,39 +1,56 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="panel">
-  <h2 style="margin:0 0 10px;">Editar intercambio</h2>
-  <p class="help" style="margin:0 0 14px;">Permite cambiar servicio, fecha y estado.</p>
 
-  <form class="form" method="post">
-    <div>
-      <label>Servicio</label>
-      <select name="id_servicio" required>
-        {% for s in servicios %}
-          <option value="{{ s.id }}" {% if s.id == intercambio.id_servicio %}selected{% endif %}>
-            {{ s.titulo }}
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Editar intercambio #{{ inter.id }}</h2>
+  <p class="help" style="margin:0;">
+    Solo puedes editar intercambios en estado <b>pendiente</b>. Aquí puedes cambiar si pagarás con créditos u ofrecerás un servicio.
+  </p>
+
+  <div class="card" style="margin-top:12px;">
+    <p><b>Proveedor:</b> {{ inter.proveedor_nombre }}</p>
+    <p><b>Servicio solicitado:</b> {{ inter.servicio_solicitado }}</p>
+    <p><b>Costo:</b> {{ inter.costo_creditos_hora }} créditos</p>
+  </div>
+</section>
+
+<section class="panel">
+  <form method="POST" class="form">
+    <label>Modo</label>
+    <select name="modo" id="modo" onchange="refreshMode()">
+      <option value="creditos" {% if not inter.id_servicio_contraparte %}selected{% endif %}>Pagar con créditos</option>
+      <option value="servicio" {% if inter.id_servicio_contraparte %}selected{% endif %}>Ofrecer un servicio</option>
+    </select>
+
+    <div id="bloque-servicio" style="display:none;">
+      <label>Servicio ofrecido (tu servicio)</label>
+      <select name="id_servicio_contraparte" id="sel">
+        <option value="">-- Seleccionar --</option>
+        {% for s in mis_servicios %}
+          <option value="{{ s.id }}" {% if inter.id_servicio_contraparte==s.id %}selected{% endif %}>
+            {{ s.titulo }} ({{ s.creditos_hora }} créditos)
           </option>
         {% endfor %}
       </select>
-    </div>
-
-    <div>
-      <label>Fecha</label>
-      <input name="fecha" required value="{{ intercambio.fecha }}">
-    </div>
-
-    <div>
-      <label>Estado</label>
-      <select name="estado" required>
-        {% for e in estados %}
-          <option value="{{ e }}" {% if e == intercambio.estado %}selected{% endif %}>{{ e }}</option>
-        {% endfor %}
-      </select>
+      <p class="help">Si eliges “ofrecer servicio”, debes seleccionar uno.</p>
     </div>
 
     <div class="actions">
-      <button class="btn primary" type="submit">Actualizar</button>
-      <a class="btn" href="/intercambios">Volver</a>
+      <button class="btn primary" type="submit">Guardar cambios</button>
+      <a class="btn" href="{{ url_for('intercambios_list') }}">Cancelar</a>
     </div>
   </form>
 </section>
+
+<script>
+  function refreshMode(){
+    const modo = document.getElementById("modo").value;
+    const bloque = document.getElementById("bloque-servicio");
+    bloque.style.display = (modo === "servicio") ? "block" : "none";
+    const sel = document.getElementById("sel");
+    if (sel) sel.required = (modo === "servicio");
+  }
+  refreshMode();
+</script>
+
 {% endblock %}

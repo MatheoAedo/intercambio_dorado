@@ -2,15 +2,25 @@
 {% block content %}
 
 <section class="panel">
-  <h2 style="margin:0 0 6px;">Crear cuenta</h2>
+  <h2 style="margin:0 0 6px;">Crear cuenta (Adulto mayor)</h2>
   <p class="help" style="margin:0 0 14px;">
-    Completa tus datos para registrarte. (Versión demo)
+    Completa tus datos para registrarte. (Edad mínima: 60 años)
   </p>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" style="margin-bottom:12px;">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
 
   <form class="form" method="post">
     <div>
       <label>Nombre</label>
-      <input name="nombre" placeholder="Tu nombre" required>
+      <input name="nombre" placeholder="Tu nombre" required minlength="3">
     </div>
 
     <div>
@@ -19,13 +29,23 @@
     </div>
 
     <div>
+      <label>Edad</label>
+      <input name="edad" type="number" min="60" max="120" placeholder="Ej: 70" required>
+    </div>
+
+    <div>
+      <label>Ubicación</label>
+      <input name="ubicacion" placeholder="Ej: Santiago" required minlength="2" maxlength="100">
+    </div>
+
+    <div>
       <label>Contraseña</label>
-      <input name="password" type="password" placeholder="Mínimo 6 caracteres" required>
+      <input name="password" type="password" placeholder="Mínimo 6 caracteres" required minlength="6">
     </div>
 
     <div>
       <label>Repetir contraseña</label>
-      <input name="password2" type="password" placeholder="Repite la contraseña" required>
+      <input name="password2" type="password" placeholder="Repite la contraseña" required minlength="6">
     </div>
 
     <div class="actions">

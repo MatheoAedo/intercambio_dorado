@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 6px;">Chat del intercambio #{{ intercambio.id }}</h2>
+
+  <p class="help" style="margin:0 0 14px;">
+    Coordinación entre tú y <b>{{ otro_nombre }}</b> · Estado: <b>{{ intercambio.estado }}</b><br>
+    Servicio solicitado: <b>{{ intercambio.servicio_solicitado }}</b>
+  </p>
+
+  <div class="card" style="max-height:340px; overflow:auto; padding:12px;">
+    {% if mensajes and mensajes|length > 0 %}
+      {% for m in mensajes %}
+        <div style="margin-bottom:12px;">
+          <div class="help" style="margin:0 0 4px;">
+            <b>
+              {% if m.autor_id == session.get("user_id") %}
+                Tú
+              {% else %}
+                {{ m.autor_nombre }}
+              {% endif %}
+            </b>
+            · {{ m.fecha }}
+          </div>
+
+          <div class="badge {% if m.autor_id == session.get('user_id') %}good{% else %}brand{% endif %}"
+               style="display:inline-block; padding:10px; max-width:90%; white-space:pre-wrap;">
+            {{ m.mensaje }}
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p class="help" style="margin:0;">Aún no hay mensajes. Puedes escribir el primero.</p>
+    {% endif %}
+  </div>
+
+  <form class="form" method="post" style="margin-top:14px;">
+    <div>
+      <label>Escribe un mensaje</label>
+      <textarea name="mensaje" rows="3" maxlength="500" placeholder="Ej: Hola, ¿qué día te acomoda?" required></textarea>
+      <p class="help" style="margin:6px 0 0;">Máximo 500 caracteres.</p>
+    </div>
+
+    <div class="actions">
+      <button class="btn success" type="submit">Enviar</button>
+      <a class="btn primary" href="{{ url_for('intercambios_list') }}">Volver a intercambios</a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

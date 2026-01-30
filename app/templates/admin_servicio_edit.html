@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 6px;">Editar servicio (moderación)</h2>
+  <p class="help" style="margin:0 0 14px;">
+    Estás editando un servicio de <b>{{ servicio.dueno_nombre }}</b> ({{ servicio.dueno_email }}).
+  </p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Título</label>
+      <input name="titulo" value="{{ servicio.titulo }}" required>
+    </div>
+
+    <div>
+      <label>Descripción</label>
+      <textarea name="descripcion" required>{{ servicio.descripcion }}</textarea>
+    </div>
+
+    <div>
+      <label>Créditos por hora</label>
+      <input type="number" name="creditos_hora" min="1" max="10" value="{{ servicio.creditos_hora }}" required>
+    </div>
+
+    <div class="actions">
+      <button class="btn success" type="submit">Guardar cambios</button>
+      <a class="btn primary" href="{{ url_for('admin_dashboard') }}">Volver</a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

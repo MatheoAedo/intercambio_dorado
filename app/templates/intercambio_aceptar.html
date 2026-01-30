@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 10px;">Aceptar intercambio</h2>
+
+  <div class="card">
+    <p><b>Solicitante:</b> {{ inter.solicitante_nombre }}</p>
+    <p><b>Servicio solicitado:</b> {{ inter.servicio_solicitado }}</p>
+    <p><b>Costo:</b> {{ inter.costo_creditos_hora }} créditos</p>
+
+    <p class="help" style="margin-top:10px;">
+      Puedes aceptar el intercambio de dos formas:
+      <br>- <b>Pago con créditos</b> (sin servicio contraparte)
+      <br>- <b>Intercambio por servicio</b> (seleccionando un servicio del solicitante)
+    </p>
+
+    <form method="POST" style="margin-top:14px;">
+      <div style="display:flex; gap:18px; flex-wrap:wrap; margin-bottom:12px;">
+        <label style="display:flex; gap:8px; align-items:center;">
+          <input type="radio" name="modo" value="creditos" checked>
+          Aceptar con <b>créditos</b>
+        </label>
+
+        <label style="display:flex; gap:8px; align-items:center;">
+          <input type="radio" name="modo" value="servicio">
+          Aceptar con <b>servicio</b> (contraparte)
+        </label>
+      </div>
+
+      <div id="bloque-servicio" style="display:none; margin-bottom:14px;">
+        <label style="display:block; margin-bottom:6px;">Servicio del solicitante (contraparte)</label>
+        <select name="id_servicio_contraparte">
+          <option value="">-- Seleccionar --</option>
+          {% for s in servicios_solicitante %}
+            <option value="{{ s.id }}">{{ s.titulo }}</option>
+          {% endfor %}
+        </select>
+        <p class="help" style="margin-top:8px;">
+          Si eliges “servicio”, debes seleccionar uno del solicitante.
+        </p>
+      </div>
+
+      <div class="actions" style="display:flex; gap:10px; flex-wrap:wrap;">
+        <button class="btn success" type="submit">Aceptar intercambio</button>
+        <a class="btn" href="{{ url_for('intercambios_list') }}">Cancelar</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  (function(){
+    const radios = document.querySelectorAll('input[name="modo"]');
+    const bloque = document.getElementById('bloque-servicio');
+    const select = bloque ? bloque.querySelector('select[name="id_servicio_contraparte"]') : null;
+
+    function refresh(){
+      const modo = document.querySelector('input[name="modo"]:checked')?.value;
+      const esServicio = (modo === 'servicio');
+      if (bloque) bloque.style.display = esServicio ? 'block' : 'none';
+      if (select) select.required = esServicio;
+    }
+
+    radios.forEach(r => r.addEventListener('change', refresh));
+    refresh();
+  })();
+</script>
+
+{% endblock %}

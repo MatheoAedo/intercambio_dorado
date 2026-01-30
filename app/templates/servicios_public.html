@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Servicios disponibles</h2>
+  <p class="help" style="margin:0;">
+    Solo se muestran servicios de otros usuarios. Puedes ver su perfil público (reputación) antes de solicitar.
+  </p>
+
+  <div class="actions" style="margin-top:12px;">
+    <a class="btn" href="{{ url_for('servicios_list') }}">Mis servicios</a>
+    <a class="btn primary" href="{{ url_for('intercambios_create_direct') }}">Crear intercambio directo</a>
+    <a class="btn" href="{{ url_for('dashboard') }}">Volver</a>
+  </div>
+</section>
+
+<section class="panel">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Créditos/hora</th>
+        <th>Dueño</th>
+        <th>Ubicación</th>
+        <th>Perfil</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for s in servicios %}
+      <tr>
+        <td>{{ s.titulo }}</td>
+        <td>{{ s.descripcion }}</td>
+        <td>{{ s.creditos_hora }}</td>
+        <td>{{ s.dueno_nombre }}</td>
+        <td>{{ s.dueno_ubicacion }}</td>
+        <td>
+          <a class="btn" style="padding:10px 12px;" href="{{ url_for('usuario_publico', id_usuario=s.dueno_id) }}">
+            Ver perfil
+          </a>
+        </td>
+        <td>
+          <form method="POST" action="{{ url_for('intercambios_solicitar', id_servicio=s.id) }}"
+                onsubmit="return confirm('¿Solicitar intercambio por este servicio?');"
+                style="display:inline;">
+            <button class="btn primary" type="submit" style="padding:10px 12px;">
+              Solicitar
+            </button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if not servicios or servicios|length == 0 %}
+    <p class="help" style="margin-top:10px;">Aún no hay servicios disponibles de otros usuarios.</p>
+  {% endif %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Confirmar solicitud</h2>
+  <p>Vas a solicitar el servicio: <b>{{ serv.titulo }}</b> de <b>{{ serv.dueno_nombre }}</b>.</p>
+
+  <form method="POST">
+    <button class="btn btn-primary" type="submit">Confirmar</button>
+    <a class="btn btn-secondary" href="{{ url_for('servicios_public') }}">Volver</a>
+  </form>
+</div>
+{% endblock %}

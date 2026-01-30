@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 6px;">Editar perfil</h2>
+  <p class="help" style="margin:0 0 14px;">
+    Cambia tus datos personales. El correo es obligatorio y puedes actualizar contraseña si quieres.
+  </p>
+
+  <form class="form" method="post">
+    <div>
+      <label>Nombre</label>
+      <input name="nombre" value="{{ usuario.nombre }}" required>
+    </div>
+
+    <div>
+      <label>Correo</label>
+      <input name="email" type="email" value="{{ usuario.email }}" required>
+      <p class="help" style="margin:6px 0 0;">Debe ser un correo válido.</p>
+    </div>
+
+    <div>
+      <label>Ubicación</label>
+      <input name="ubicacion" value="{{ usuario.ubicacion }}" required>
+    </div>
+
+    <div>
+      <label>Edad</label>
+      <input type="number" name="edad" min="18" max="120" value="{{ usuario.edad }}" required>
+    </div>
+
+    <hr class="perfil-hr">
+
+    <h3 style="margin:0 0 10px;">Actualizar contraseña (opcional)</h3>
+    <div>
+      <label>Nueva contraseña</label>
+      <input type="password" name="password" placeholder="Mínimo 6 caracteres">
+    </div>
+
+    <div>
+      <label>Repetir nueva contraseña</label>
+      <input type="password" name="password2" placeholder="Repite la nueva contraseña">
+    </div>
+
+    <div class="actions">
+      <button class="btn success" type="submit">Guardar cambios</button>
+      <a class="btn primary" href="{{ url_for('perfil') }}">Volver</a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Notificaciones</h2>
+  <p class="help" style="margin:0;">
+    Esto se calcula desde tus intercambios (sin tabla extra).
+  </p>
+</section>
+
+<section class="panel">
+  <h3 style="margin:0 0 10px;">Solicitudes pendientes (recibidas)</h3>
+  {% if pendientes and pendientes|length > 0 %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Solicitante</th>
+          <th>Servicio</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in pendientes %}
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.solicitante_nombre }}</td>
+          <td>{{ p.servicio_solicitado }}</td>
+          <td><a class="btn success" href="{{ url_for('intercambios_aceptar', id_intercambio=p.id) }}">Revisar</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="help">No tienes solicitudes pendientes.</p>
+  {% endif %}
+</section>
+
+<section class="panel">
+  <h3 style="margin:0 0 10px;">Intercambios activos</h3>
+  {% if activos and activos|length > 0 %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Estado</th>
+          <th>Servicio</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in activos %}
+        <tr>
+          <td>{{ a.id }}</td>
+          <td><span class="badge">{{ a.estado }}</span></td>
+          <td>{{ a.servicio_solicitado }}</td>
+          <td><a class="btn" href="{{ url_for('intercambio_chat', id_intercambio=a.id) }}">Abrir</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="help">No tienes intercambios activos.</p>
+  {% endif %}
+</section>
+
+{% endblock %}

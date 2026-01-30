@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Crear intercambio directo</h2>
+  <p class="help" style="margin:0;">
+    Elige una persona, luego uno de sus servicios. Puedes pagar con créditos o ofrecer un servicio tuyo (o crear uno al vuelo).
+  </p>
+
+  <div class="actions" style="margin-top:12px;">
+    <a class="btn" href="{{ url_for('intercambios_list') }}">Volver</a>
+  </div>
+</section>
+
+<section class="panel">
+  <form method="GET" class="form">
+    <label>Selecciona persona (proveedor)</label>
+    <select name="proveedor_id" onchange="this.form.submit()">
+      <option value="">-- Seleccionar --</option>
+      {% for u in usuarios %}
+        <option value="{{ u.id }}" {% if proveedor_id==u.id %}selected{% endif %}>
+          {{ u.nombre }} ({{ u.ubicacion }})
+        </option>
+      {% endfor %}
+    </select>
+    <p class="help">Al seleccionar, se cargarán sus servicios.</p>
+  </form>
+</section>
+
+<section class="panel">
+  <form method="POST" class="form">
+    <input type="hidden" name="proveedor_id" value="{{ proveedor_id or '' }}">
+
+    <label>Servicio del proveedor (lo que solicitas)</label>
+    <select name="id_servicio_solicitado" required>
+      <option value="">-- Seleccionar --</option>
+      {% for s in servicios_proveedor %}
+        <option value="{{ s.id }}">{{ s.titulo }} ({{ s.creditos_hora }} créditos)</option>
+      {% endfor %}
+    </select>
+
+    <label>Modo de intercambio</label>
+    <select name="modo" id="modo" onchange="refreshMode()">
+      <option value="creditos">Pagar con créditos</option>
+      <option value="servicio">Ofrecer un servicio</option>
+    </select>
+
+    <div id="bloque-servicio" style="display:none;">
+      <div class="panel" style="margin-top:10px;">
+        <h3 style="margin:0 0 8px;">Ofrecer un servicio (opcional)</h3>
+        <p class="help" style="margin:0 0 12px;">
+          Puedes seleccionar uno de tus servicios o crear uno nuevo al vuelo.
+        </p>
+
+        <label>Selecciona un servicio tuyo (opcional)</label>
+        <select name="id_servicio_contraparte" id="select-mis-servicios">
+          <option value="">-- No seleccionar (crear nuevo abajo) --</option>
+          {% for ms in mis_servicios %}
+            <option value="{{ ms.id }}">{{ ms.titulo }} ({{ ms.creditos_hora }} créditos)</option>
+          {% endfor %}
+        </select>
+
+        <hr class="perfil-hr">
+
+        <label>O crear servicio nuevo al vuelo</label>
+        <input name="nuevo_titulo" placeholder="Título del servicio nuevo">
+        <textarea name="nueva_descripcion" placeholder="Descripción del servicio nuevo"></textarea>
+        <select name="nuevo_creditos_hora">
+          <option value="">Créditos/hora</option>
+          {% for n in range(1, 11) %}
+            <option value="{{ n }}">{{ n }}</option>
+          {% endfor %}
+        </select>
+
+        <p class="help">
+          Si elegiste un servicio tuyo arriba, no es necesario completar estos campos.
+        </p>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button class="btn primary" type="submit">Crear intercambio</button>
+      <a class="btn" href="{{ url_for('intercambios_list') }}">Cancelar</a>
+    </div>
+  </form>
+</section>
+
+<script>
+  function refreshMode(){
+    const modo = document.getElementById("modo").value;
+    const bloque = document.getElementById("bloque-servicio");
+    bloque.style.display = (modo === "servicio") ? "block" : "none";
+  }
+  refreshMode();
+</script>
+
+{% endblock %}

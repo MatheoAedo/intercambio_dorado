@@ -1,47 +1,214 @@
 {% extends "base.html" %}
 {% block content %}
+
 <section class="panel">
   <h2 style="margin:0 0 8px;">Intercambios</h2>
-  <p class="help" style="margin:0;">CRUD visual completo con estados</p>
 
-  <div class="actions">
-    <a class="btn success" href="/intercambios/create">+ Crear intercambio</a>
+  {% if session.get("rol") == "admin" %}
+    <p class="help" style="margin:0;">
+      Como administrador, no participas en intercambios. Aquí puedes verlos solo con fines de supervisión/moderación.
+    </p>
+  {% else %}
+    <p class="help" style="margin:0;">
+      Aquí ves tus solicitudes enviadas y recibidas. Puedes cambiar estado, abrir chat y valorar al completar.
+    </p>
+  {% endif %}
+
+  <div class="actions" style="margin-top:12px;">
+    {# ✅ Admin NO crea intercambios ni explora servicios #}
+    {% if session.get("rol") != "admin" %}
+      <a class="btn primary" href="{{ url_for('intercambios_create_direct') }}">Crear intercambio directo</a>
+      <a class="btn" href="{{ url_for('servicios_public') }}">Explorar servicios</a>
+    {% endif %}
+
+    <a class="btn" href="{{ url_for('notificaciones') }}">
+      Notificaciones
+      {% if notif_count and notif_count > 0 %}
+        <span class="badge-mini">{{ notif_count }}</span>
+      {% endif %}
+    </a>
   </div>
 </section>
 
 <section class="panel">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Servicio</th>
-        <th>Fecha</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for i in intercambios %}
-      <tr>
-        <td>{{ i.id }}</td>
-        <td>{{ servicios_map[i.id_servicio] }}</td>
-        <td>{{ i.fecha }}</td>
-        <td>
-          {% if i.estado == 'completado' %}
-            <span class="badge good">{{ i.estado }}</span>
-          {% elif i.estado == 'cancelado' %}
-            <span class="badge">{{ i.estado }}</span>
-          {% else %}
-            <span class="badge brand">{{ i.estado }}</span>
-          {% endif %}
-        </td>
-        <td>
-          <a class="btn primary" href="/intercambios/edit/{{ i.id }}">Editar</a>
-          <a class="btn" href="/intercambios/delete/{{ i.id }}" onclick="return confirm('¿Eliminar intercambio?');">Eliminar</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <h3 style="margin:0 0 10px;">Solicitudes enviadas</h3>
+
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Servicio solicitado</th>
+          <th>Proveedor</th>
+          <th>Estado</th>
+          <th>Contraparte / Pago</th>
+          <th>Cambiar estado</th>
+          <th>Chat</th>
+          <th>Valorar</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in enviados %}
+        <tr>
+          <td>{{ i.id }}</td>
+          <td>{{ i.servicio_solicitado }}</td>
+          <td>{{ i.proveedor_nombre }}</td>
+          <td><span class="badge">{{ i.estado }}</span></td>
+
+          <td>
+            {% if i.id_servicio_contraparte %}
+              {{ i.servicio_contraparte }}
+            {% else %}
+              <span class="badge">Pago con créditos</span>
+            {% endif %}
+            <div class="help" style="margin-top:4px;">Costo: {{ i.costo_creditos_hora }} créditos</div>
+          </td>
+
+          <td>
+            <form method="POST"
+                  action="{{ url_for('intercambios_estado', id_intercambio=i.id) }}"
+                  style="display:flex; gap:8px; align-items:center;">
+              <select name="estado">
+                {% for e in i.estados_permitidos %}
+                  <option value="{{ e }}" {% if e==i.estado %}selected{% endif %}>{{ e }}</option>
+                {% endfor %}
+              </select>
+              <button class="btn primary" type="submit" style="padding:10px 12px;">OK</button>
+            </form>
+          </td>
+
+          <td>
+            <a class="btn" href="{{ url_for('intercambio_chat', id_intercambio=i.id) }}" style="padding:10px 12px;">Chat</a>
+          </td>
+
+          <td>
+            {# ✅ Admin NO valora #}
+            {% if session.get("rol") != "admin" and i.estado == "completado" %}
+              <a class="btn success" href="{{ url_for('valoraciones_create', id_intercambio=i.id) }}" style="padding:10px 12px;">Valorar</a>
+            {% else %}
+              -
+            {% endif %}
+          </td>
+
+          <td>
+            {# Admin no edita “como solicitante” normalmente; lo dejamos por seguridad solo si no es admin #}
+            {% if session.get("rol") != "admin" and i.estado == "pendiente" %}
+              <a class="btn" href="{{ url_for('intercambios_edit', id_intercambio=i.id) }}" style="padding:10px 12px;">Editar</a>
+            {% else %}
+              -
+            {% endif %}
+          </td>
+
+          <td>
+            <form method="POST"
+                  action="{{ url_for('intercambios_delete', id_intercambio=i.id) }}"
+                  onsubmit="return confirm('¿Eliminar este intercambio?');"
+                  style="display:inline;">
+              <button class="btn" type="submit" style="padding:10px 12px;">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </section>
+
+<section class="panel">
+  <h3 style="margin:0 0 10px;">Solicitudes recibidas</h3>
+
+  <div class="table-wrap">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Solicitante</th>
+          <th>Servicio solicitado</th>
+          <th>Estado</th>
+          <th>Contraparte / Pago</th>
+          <th>Acciones</th>
+          <th>Chat</th>
+          <th>Valorar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in recibidos %}
+        <tr>
+          <td>{{ i.id }}</td>
+          <td>{{ i.solicitante_nombre }}</td>
+          <td>{{ i.servicio_solicitado }}</td>
+          <td><span class="badge">{{ i.estado }}</span></td>
+
+          <td>
+            {% if i.id_servicio_contraparte %}
+              {{ i.servicio_contraparte }}
+            {% else %}
+              <span class="badge">Pago con créditos</span>
+            {% endif %}
+            <div class="help" style="margin-top:4px;">Costo: {{ i.costo_creditos_hora }} créditos</div>
+          </td>
+
+          <td>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              {# ✅ Admin NO “acepta” (no es proveedor real). Ocultamos aceptar/rechazar para admin. #}
+              {% if session.get("rol") != "admin" %}
+                {% if i.estado == "pendiente" %}
+                  <a class="btn success" href="{{ url_for('intercambios_aceptar', id_intercambio=i.id) }}" style="padding:10px 12px;">
+                    Aceptar
+                  </a>
+
+                  <form method="POST" action="{{ url_for('intercambios_estado', id_intercambio=i.id) }}" style="display:inline;">
+                    <input type="hidden" name="estado" value="cancelado">
+                    <button class="btn" type="submit" style="padding:10px 12px;" onclick="return confirm('¿Rechazar/cancelar esta solicitud?');">
+                      Rechazar
+                    </button>
+                  </form>
+                {% endif %}
+              {% endif %}
+
+              {# Mantengo cambio estado por si estás usando admin para moderar estados (si no, lo saco) #}
+              <form method="POST"
+                    action="{{ url_for('intercambios_estado', id_intercambio=i.id) }}"
+                    style="display:flex; gap:8px; align-items:center;">
+                <select name="estado">
+                  {% for e in i.estados_permitidos %}
+                    <option value="{{ e }}" {% if e==i.estado %}selected{% endif %}>{{ e }}</option>
+                  {% endfor %}
+                </select>
+                <button class="btn primary" type="submit" style="padding:10px 12px;">OK</button>
+              </form>
+            </div>
+          </td>
+
+          <td>
+            <a class="btn" href="{{ url_for('intercambio_chat', id_intercambio=i.id) }}" style="padding:10px 12px;">Chat</a>
+          </td>
+
+          <td>
+            {# ✅ Admin NO valora #}
+            {% if session.get("rol") != "admin" and i.estado == "completado" %}
+              <a class="btn success" href="{{ url_for('valoraciones_create', id_intercambio=i.id) }}" style="padding:10px 12px;">Valorar</a>
+            {% else %}
+              -
+            {% endif %}
+          </td>
+
+          <td>
+            <form method="POST"
+                  action="{{ url_for('intercambios_delete', id_intercambio=i.id) }}"
+                  onsubmit="return confirm('¿Eliminar este intercambio?');"
+                  style="display:inline;">
+              <button class="btn" type="submit" style="padding:10px 12px;">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+
 {% endblock %}

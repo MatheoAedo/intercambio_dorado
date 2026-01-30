@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Perfil público</h2>
+  <p class="help" style="margin:0;">
+    Aquí puedes ver reputación y comentarios recientes.
+  </p>
+
+  <div class="card" style="margin-top:12px;">
+    <p><b>Nombre:</b> {{ u.nombre }}</p>
+    <p><b>Ubicación:</b> {{ u.ubicacion }}</p>
+    <p><b>Promedio reputación:</b> {{ stats.promedio }}</p>
+    <p><b>Total valoraciones:</b> {{ stats.total_valoraciones }}</p>
+    <p><b>Total intercambios:</b> {{ total_intercambios }}</p>
+  </div>
+</section>
+
+<section class="panel">
+  <h3 style="margin:0 0 10px;">Últimas 5 valoraciones</h3>
+  {% if ultimas_val and ultimas_val|length > 0 %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Autor</th>
+          <th>Puntuación</th>
+          <th>Comentario</th>
+          <th>Fecha</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for v in ultimas_val %}
+        <tr>
+          <td>{{ v.autor }}</td>
+          <td>{{ v.puntuacion }}</td>
+          <td>{{ v.comentario or "-" }}</td>
+          <td>{{ v.fecha }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="help">Aún no tiene valoraciones.</p>
+  {% endif %}
+</section>
+
+{% endblock %}

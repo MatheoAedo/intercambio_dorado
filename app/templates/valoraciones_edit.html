@@ -2,33 +2,31 @@
 {% block content %}
 <section class="panel">
   <h2 style="margin:0 0 10px;">Editar valoración</h2>
-  <p class="help" style="margin:0 0 14px;">Actualiza puntuación y comentario.</p>
 
-  <form class="form" method="post">
+  <p class="help" style="margin:0 0 14px;">
+    Intercambio #{{ v.id_intercambio }}
+    {% if v.destinatario %}
+      — Destinatario: <b>{{ v.destinatario }}</b>
+    {% endif %}
+    {% if session.get("rol") == "admin" and v.autor %}
+      — Autor: <b>{{ v.autor }}</b>
+    {% endif %}
+  </p>
+
+  <form class="form" method="POST">
     <div>
-      <label>Intercambio</label>
-      <select name="id_intercambio" required>
-        {% for i in intercambios %}
-          <option value="{{ i.id }}" {% if i.id == valoracion.id_intercambio %}selected{% endif %}>
-            Intercambio #{{ i.id }} ({{ i.estado }})
-          </option>
-        {% endfor %}
-      </select>
+      <label>Puntuación (1 a 5)</label>
+      <input type="number" name="puntuacion" min="1" max="5" required value="{{ v.puntuacion }}">
     </div>
 
     <div>
-      <label>Puntuación</label>
-      <input name="puntuacion" type="number" min="1" max="5" required value="{{ valoracion.puntuacion }}">
-    </div>
-
-    <div>
-      <label>Comentario</label>
-      <textarea name="comentario" minlength="3" maxlength="300">{{ valoracion.comentario }}</textarea>
+      <label>Comentario (opcional, máximo 300)</label>
+      <textarea name="comentario" maxlength="300">{{ v.comentario or "" }}</textarea>
     </div>
 
     <div class="actions">
-      <button class="btn primary" type="submit">Actualizar</button>
-      <a class="btn" href="/valoraciones">Volver</a>
+      <button class="btn success" type="submit">Actualizar</button>
+      <a class="btn" href="{{ url_for('valoraciones_list') }}">Volver</a>
     </div>
   </form>
 </section>

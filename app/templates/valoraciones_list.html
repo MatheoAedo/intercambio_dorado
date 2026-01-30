@@ -1,41 +1,162 @@
 {% extends "base.html" %}
 {% block content %}
+
 <section class="panel">
   <h2 style="margin:0 0 8px;">Valoraciones</h2>
-  <p class="help" style="margin:0;"></p>
 
-  <div class="actions">
-    <a class="btn success" href="/valoraciones/create">+ Crear valoración</a>
-  </div>
+  {% if session.get("rol") == "admin" %}
+    <p class="help" style="margin:0;">
+      Modo administrador: aquí puedes moderar (editar/eliminar) valoraciones para mantener la comunidad segura.
+    </p>
+  {% else %}
+    <p class="help" style="margin:0;">
+      Aquí ves las valoraciones <b>recibidas</b> y las que tú <b>has hecho</b>. Solo puedes editar/eliminar las que hiciste tú.
+    </p>
+  {% endif %}
 </section>
 
-<section class="panel">
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Intercambio</th>
-        <th>Puntuación</th>
-        <th>Comentario</th>
-        <th>Fecha</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for v in valoraciones %}
-      <tr>
-        <td>{{ v.id }}</td>
-        <td>#{{ v.id_intercambio }}</td>
-        <td><span class="badge brand">{{ v.puntuacion }}/5</span></td>
-        <td>{{ v.comentario }}</td>
-        <td>{{ v.fecha }}</td>
-        <td>
-          <a class="btn primary" href="/valoraciones/edit/{{ v.id }}">Editar</a>
-          <a class="btn" href="/valoraciones/delete/{{ v.id }}" onclick="return confirm('¿Eliminar valoración?');">Eliminar</a>
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</section>
+{% if session.get("rol") == "admin" %}
+
+  <section class="panel">
+    <h3 style="margin:0 0 10px;">Moderación de valoraciones (todas)</h3>
+
+    {% if todas and todas|length > 0 %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Intercambio</th>
+              <th>Autor</th>
+              <th>Destinatario</th>
+              <th>Puntuación</th>
+              <th>Comentario</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for v in todas %}
+            <tr>
+              <td>{{ v.id }}</td>
+              <td>#{{ v.id_intercambio }}</td>
+              <td>{{ v.autor }}</td>
+              <td>{{ v.destinatario }}</td>
+              <td>{{ v.puntuacion }}</td>
+              <td>{{ v.comentario or "-" }}</td>
+              <td>{{ v.fecha }}</td>
+              <td>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <a class="btn primary" href="{{ url_for('admin_valoraciones_edit', id_valoracion=v.id) }}" style="padding:10px 12px;">
+                    Editar
+                  </a>
+
+                  <form method="POST"
+                        action="{{ url_for('admin_valoraciones_delete', id_valoracion=v.id) }}"
+                        onsubmit="return confirm('¿Eliminar esta valoración?');"
+                        style="display:inline;">
+                    <button class="btn" type="submit" style="padding:10px 12px;">Eliminar</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="help" style="margin:0;">No hay valoraciones registradas.</p>
+    {% endif %}
+  </section>
+
+{% else %}
+
+  {# ✅ USUARIO NORMAL: recibidas #}
+  <section class="panel">
+    <h3 style="margin:0 0 10px;">Valoraciones recibidas</h3>
+
+    {% if recibidas and recibidas|length > 0 %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Intercambio</th>
+              <th>Autor</th>
+              <th>Puntuación</th>
+              <th>Comentario</th>
+              <th>Fecha</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for v in recibidas %}
+            <tr>
+              <td>{{ v.id }}</td>
+              <td>#{{ v.id_intercambio }}</td>
+              <td>{{ v.autor }}</td>
+              <td>{{ v.puntuacion }}</td>
+              <td>{{ v.comentario or "-" }}</td>
+              <td>{{ v.fecha }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="help" style="margin:0;">Aún no tienes valoraciones recibidas.</p>
+    {% endif %}
+  </section>
+
+  <section class="panel">
+    <h3 style="margin:0 0 10px;">Valoraciones hechas por mí</h3>
+
+    {% if hechas and hechas|length > 0 %}
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Intercambio</th>
+              <th>Destinatario</th>
+              <th>Puntuación</th>
+              <th>Comentario</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for v in hechas %}
+            <tr>
+              <td>{{ v.id }}</td>
+              <td>#{{ v.id_intercambio }}</td>
+              <td>{{ v.destinatario }}</td>
+              <td>{{ v.puntuacion }}</td>
+              <td>{{ v.comentario or "-" }}</td>
+              <td>{{ v.fecha }}</td>
+              <td>
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                  <a class="btn primary" href="{{ url_for('valoraciones_edit', id_valoracion=v.id) }}" style="padding:10px 12px;">
+                    Editar
+                  </a>
+
+                  <form method="POST"
+                        action="{{ url_for('valoraciones_delete', id_valoracion=v.id) }}"
+                        onsubmit="return confirm('¿Eliminar esta valoración?');"
+                        style="display:inline;">
+                    <button class="btn" type="submit" style="padding:10px 12px;">Eliminar</button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p class="help" style="margin:0;">Aún no has hecho valoraciones.</p>
+    {% endif %}
+  </section>
+
+{% endif %}
+
 {% endblock %}

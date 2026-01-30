@@ -1,37 +1,58 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="panel">
-  <h2 style="margin:0 0 8px;">Panel de Usuario</h2>
-  <p class="help" style="margin:0 0 12px;">
-    Aquí puedes gestionar tus servicios, revisar intercambios y dejar valoraciones. Diseñado para ser simple y legible.
+<div class="container mt-4">
+
+  <h2>¡Bienvenido/a, {{ nombre }}! 👋</h2>
+  <p class="text-muted">
+    Aquí puedes ver los servicios publicados por otros usuarios y solicitar un intercambio.
   </p>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Publicar servicios</h3>
-      <p>Crea y administra servicios de apoyo. Puedes editar lo que tú publicas.</p>
-      <div class="actions">
-        <a class="btn success" href="/servicios/create">Crear servicio</a>
-        <a class="btn primary" href="/servicios">Ver servicios</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Intercambios</h3>
-      <p>Consulta tus intercambios y su estado. Podrás actualizarlos cuando corresponda.</p>
-      <div class="actions">
-        <a class="btn primary" href="/intercambios">Ver intercambios</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Valoraciones</h3>
-      <p>Valora experiencias y aporta comentarios para ayudar a otros usuarios.</p>
-      <div class="actions">
-        <a class="btn success" href="/valoraciones/create">Valorar</a>
-        <a class="btn primary" href="/valoraciones">Ver valoraciones</a>
-      </div>
-    </div>
+  <div class="d-flex gap-2 mb-3">
+    <a class="btn btn-primary" href="{{ url_for('servicios_list') }}">Mis servicios</a>
+    <a class="btn btn-outline-primary" href="{{ url_for('intercambios_list') }}">Mis intercambios</a>
+    <a class="btn btn-outline-secondary" href="{{ url_for('valoraciones_list') }}">Mis valoraciones</a>
   </div>
-</section>
+
+  <hr>
+
+  <h4 class="mb-3">Servicios disponibles</h4>
+
+  {% if servicios and servicios|length > 0 %}
+    <div class="table-responsive">
+      <table class="table table-striped align-middle">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Créditos/hora</th>
+            <th>Dueño</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in servicios %}
+          <tr>
+            <td>{{ s.titulo }}</td>
+            <td>{{ s.descripcion }}</td>
+            <td>{{ s.creditos_hora }}</td>
+            <td>{{ s.dueno_nombre }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('intercambios_solicitar', id_servicio=s.id) }}">
+                <button class="btn btn-sm btn-success" type="submit">
+                  Solicitar intercambio
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info">
+      Aún no hay servicios publicados por otros usuarios. Vuelve más tarde o crea servicios con tu cuenta.
+    </div>
+  {% endif %}
+
+</div>
 {% endblock %}

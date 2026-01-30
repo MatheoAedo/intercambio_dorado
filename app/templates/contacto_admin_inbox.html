@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Bandeja de contacto (Admin)</h2>
+  <p class="help" style="margin:0;">
+    Modo demo: mensajes en memoria.
+  </p>
+</section>
+
+<section class="panel">
+  {% if mensajes and mensajes|length > 0 %}
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Tipo</th>
+          <th>Categoría</th>
+          <th>Asunto</th>
+          <th>Mensaje</th>
+          <th>Estado</th>
+          <th>Responder</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for m in mensajes %}
+        <tr>
+          <td>{{ m.id }}</td>
+          <td>{{ m.tipo }}</td>
+          <td>{{ m.categoria }}</td>
+          <td>{{ m.asunto }}</td>
+          <td>{{ m.mensaje }}</td>
+          <td>
+            {% if m.cerrado %}
+              <span class="badge good">Cerrado</span>
+            {% else %}
+              <span class="badge brand">Abierto</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if not m.cerrado %}
+              <form method="POST" action="{{ url_for('admin_contactos_responder', mid=m.id) }}" style="display:flex; gap:8px; align-items:center;">
+                <input name="respuesta" placeholder="Respuesta..." required style="min-width:220px;">
+                <button class="btn primary" type="submit">Enviar</button>
+              </form>
+            {% else %}
+              <div class="help">Resp: {{ m.respuesta }}</div>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="help">Sin mensajes.</p>
+  {% endif %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="panel">
+  <h2 style="margin:0 0 8px;">Contacto con Admin</h2>
+  <p class="help" style="margin:0;">
+    Envía un mensaje al administrador. (Modo demo: puede reiniciarse en Render)
+  </p>
+</section>
+
+<section class="panel">
+  <form method="POST" class="form">
+    <label>Nombre</label>
+    <input name="nombre" required>
+
+    <label>Asunto</label>
+    <input name="asunto" required>
+
+    <label>Tipo</label>
+    <select name="categoria" required>
+      <option value="reclamo">Reclamo</option>
+      <option value="sugerencia">Sugerencia</option>
+      <option value="consulta" selected>Consulta</option>
+      <option value="felicitaciones">Felicitaciones</option>
+    </select>
+
+    <label>Mensaje</label>
+    <textarea name="mensaje" required></textarea>
+
+    <div class="actions">
+      <button class="btn primary" type="submit">Enviar</button>
+      <a class="btn" href="{{ url_for('perfil') }}">Volver</a>
+    </div>
+  </form>
+</section>
+
+{% endblock %}

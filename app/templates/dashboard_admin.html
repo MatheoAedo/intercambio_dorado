@@ -1,37 +1,71 @@
 {% extends "base.html" %}
 {% block content %}
+
 <section class="panel">
-  <h2 style="margin:0 0 8px;">Panel Administrador</h2>
-  <p class="help" style="margin:0 0 12px;">
-    Como administrador puedes supervisar el sistema completo: usuarios, servicios, intercambios, valoraciones y reputación.
+  <h2 style="margin:0 0 6px;">Panel Administrador</h2>
+  <p class="help" style="margin:0;">
+    Bienvenido/a, {{ nombre }}. Desde aquí puedes supervisar usuarios y moderar servicios/valoraciones.
   </p>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Gestión total</h3>
-      <p>Acceso completo para revisar y editar información del sistema.</p>
-      <div class="actions">
-        <a class="btn primary" href="/admin">Panel de usuarios</a>
-      </div>
-    </div>
+  <div class="actions" style="margin-top:12px;">
+    <a class="btn primary" href="{{ url_for('admin_panel') }}">Administrar usuarios</a>
 
-    <div class="card">
-      <h3>Servicios</h3>
-      <p>Ver, crear, editar y eliminar servicios publicados.</p>
-      <div class="actions">
-        <a class="btn primary" href="/servicios">Ver servicios</a>
-        <a class="btn success" href="/servicios/create">Crear servicio</a>
-      </div>
-    </div>
+    {# Si quieres que el admin NO use intercambios, puedes borrar este botón #}
+    <a class="btn" href="{{ url_for('intercambios_list') }}">Intercambios (solo lectura)</a>
 
-    <div class="card">
-      <h3>Intercambios</h3>
-      <p>Supervisar intercambios y modificar estados.</p>
-      <div class="actions">
-        <a class="btn primary" href="/intercambios">Ver intercambios</a>
-        <a class="btn success" href="/intercambios/create">Crear intercambio</a>
-      </div>
-    </div>
+    <a class="btn" href="{{ url_for('logout') }}">Cerrar sesión</a>
   </div>
 </section>
+
+<section class="panel">
+  <h3 style="margin:0 0 10px;">Servicios publicados por usuarios</h3>
+
+  {% if servicios and servicios|length > 0 %}
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Créditos/hora</th>
+            <th>Dueño</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for s in servicios %}
+          <tr>
+            <td>{{ s.titulo }}</td>
+            <td>{{ s.descripcion }}</td>
+            <td>{{ s.creditos_hora }}</td>
+            <td>{{ s.dueno_nombre }}</td>
+            <td>{{ s.dueno_email }}</td>
+            <td>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <!-- ✅ Editar (moderación) -->
+                <a class="btn primary" href="{{ url_for('admin_servicio_edit', id_servicio=s.id) }}" style="padding:10px 12px;">
+                  Editar
+                </a>
+
+                <!-- ✅ Eliminar -->
+                <form method="POST"
+                      action="{{ url_for('admin_servicio_delete', id_servicio=s.id) }}"
+                      onsubmit="return confirm('¿Seguro que deseas eliminar este servicio?');"
+                      style="display:inline;">
+                  <button class="btn" type="submit" style="padding:10px 12px;">Eliminar</button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="help" style="margin:0;">No hay servicios publicados aún.</p>
+  {% endif %}
+</section>
+
 {% endblock %}
